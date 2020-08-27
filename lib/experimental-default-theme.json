@@ -131,6 +131,42 @@
 						"slug": "huge",
 						"value": 48
 					}
+				],
+				"fontFamilies": [
+					{
+						"value": "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Oxygen-Sans,Ubuntu,Cantarell,\"Helvetica Neue\",sans-serif",
+						"slug": "system",
+						"name": "System",
+						"group": "web-safe"
+					},
+					{
+						"value": "Helvetica Neue, Helvetica, Arial, sans-serif",
+						"slug": "helvetica-arial",
+						"group": "web-safe"
+					},
+					{
+						"value": "Geneva, Tahoma, Verdana, sans-serif",
+						"slug": "geneva-verdana",
+						"group": "web-safe"
+					},
+					{
+						"value": "Cambria, Georgia, serif",
+						"slug": "cambria-georgia",
+						"group": "web-safe"
+					},
+					{
+						"value": "Hoefler Text, Baskerville Old Face, Garamond, Times New Roman, serif",
+						"slug": "hoefler-times-new-roman",
+						"group": "web-safe"
+					},
+					{
+						"value": "Consolas, monaco, monospace",
+						"slug": "consolas",
+						"group": "web-safe"
+					}
+				],
+				"fontFamilyGroups": [
+					{ "name": "Web safe", "slug": "web-safe"}
 				]
 			},
 			"spacing": {

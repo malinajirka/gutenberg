@@ -344,6 +344,8 @@ function gutenberg_experimental_global_styles_get_css_property( $style_property 
 			return 'font-size';
 		case 'lineHeight':
 			return 'line-height';
+		case 'fontFamily':
+			return 'font-family';
 		default:
 			return $style_property;
 	}
@@ -388,9 +390,10 @@ function gutenberg_experimental_global_styles_get_support_keys() {
  */
 function gutenberg_experimental_global_styles_get_presets_structure() {
 	return array(
-		'color'    => array( 'color', 'palette' ),
-		'gradient' => array( 'color', 'gradients' ),
-		'fontSize' => array( 'typography', 'fontSizes' ),
+		'color'      => array( 'color', 'palette' ),
+		'gradient'   => array( 'color', 'gradients' ),
+		'fontSize'   => array( 'typography', 'fontSizes' ),
+		'fontFamily' => array( 'typography', 'fontFamilies' ),
 	);
 }
 

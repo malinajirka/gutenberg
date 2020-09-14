@@ -47,8 +47,19 @@ export const MenuBackButtonUI = styled( Button )`
 `;
 
 export const MenuTitleUI = styled( Text )`
-	padding: 4px 0 4px 16px;
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
 	margin-bottom: 8px;
+	padding: 4px 0 4px 16px;
+`;
+
+export const MenuTitleSearchUI = styled.div`
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 8px;
+	padding: 4px 0 4px 16px;
 `;
 
 export const GroupTitleUI = styled( Text )`

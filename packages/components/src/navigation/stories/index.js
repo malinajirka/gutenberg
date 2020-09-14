@@ -53,7 +53,7 @@ function Example() {
 				activeMenu={ activeMenu }
 				onActivateMenu={ setActiveMenu }
 			>
-				<NavigationMenu title="Home">
+				<NavigationMenu hasSearch title="Home">
 					<NavigationGroup title="Group 1">
 						<NavigationItem item="item-1" title="Item 1">
 							<Link href="https://example.com/item-1">

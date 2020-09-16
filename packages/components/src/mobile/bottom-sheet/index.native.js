@@ -303,6 +303,11 @@ class BottomSheet extends Component {
 			styles.bottomSheetHeaderTitleDark
 		);
 
+		const dragIndicatorStyle = getStylesFromColorScheme(
+			styles.dragIndicator,
+			styles.dragIndicatorDark
+		);
+
 		const listProps = {
 			disableScrollViewPanResponder: true,
 			bounces,
@@ -377,7 +382,7 @@ class BottomSheet extends Component {
 					} }
 					keyboardVerticalOffset={ -safeAreaBottomInset }
 				>
-					<View style={ styles.dragIndicator } />
+					<View style={ dragIndicatorStyle } />
 					{ ! hideHeader && getHeader() }
 					<WrapperView
 						{ ...( isChildrenScrollable

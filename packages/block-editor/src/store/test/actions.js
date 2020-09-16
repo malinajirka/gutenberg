@@ -1,4 +1,9 @@
 /**
+ * WordPress dependencies
+ */
+import { syncSelect } from '@wordpress/data-controls';
+
+/**
  * Internal dependencies
  */
 import {
@@ -32,7 +37,6 @@ import {
 	updateBlockAttributes,
 	updateBlockListSettings,
 } from '../actions';
-import { select } from '../controls';
 
 describe( 'actions', () => {
 	describe( 'resetBlocks', () => {
@@ -145,15 +149,15 @@ describe( 'actions', () => {
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [ 'chicken' ],
 				selectorName: 'getBlockRootClientId',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [ 'core/test-block', undefined ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( true ).value ).toEqual( {
@@ -166,8 +170,8 @@ describe( 'actions', () => {
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [],
 				selectorName: 'getBlockCount',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( 1 ) ).toEqual( {
@@ -198,29 +202,29 @@ describe( 'actions', () => {
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [],
 				selectorName: 'getSettings',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [ 'chicken' ],
 				selectorName: 'getBlockRootClientId',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [ 'core/test-ribs', undefined ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( true ).value ).toEqual( {
 				args: [ 'core/test-chicken', undefined ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( false ) ).toEqual( {
@@ -252,22 +256,22 @@ describe( 'actions', () => {
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [ 'chicken' ],
 				selectorName: 'getBlockRootClientId',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [ 'core/test-ribs', undefined ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( true ).value ).toEqual( {
 				args: [ 'core/test-chicken', undefined ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( true ).value ).toEqual( {
@@ -280,8 +284,8 @@ describe( 'actions', () => {
 			expect( replaceBlockGenerator.next().value ).toEqual( {
 				args: [],
 				selectorName: 'getBlockCount',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( replaceBlockGenerator.next( 1 ) ).toEqual( {
@@ -312,8 +316,8 @@ describe( 'actions', () => {
 			expect( insertBlockGenerator.next().value ).toEqual( {
 				args: [ 'core/test-block', 'testclientid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlockGenerator.next( true ) ).toEqual( {
@@ -356,8 +360,8 @@ describe( 'actions', () => {
 			expect( insertBlocksGenerator.next().value ).toEqual( {
 				args: [],
 				selectorName: 'getSettings',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect(
@@ -372,22 +376,22 @@ describe( 'actions', () => {
 			).toEqual( {
 				args: [ 'core/test-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ).value ).toEqual( {
 				args: [ 'core/test-chicken', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ).value ).toEqual( {
 				args: [ 'core/test-chicken-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ) ).toEqual( {
@@ -433,8 +437,8 @@ describe( 'actions', () => {
 			expect( insertBlocksGenerator.next().value ).toEqual( {
 				args: [],
 				selectorName: 'getSettings',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect(
@@ -448,8 +452,8 @@ describe( 'actions', () => {
 			).toEqual( {
 				args: [ 'core/test-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ) ).toEqual( {
@@ -497,22 +501,22 @@ describe( 'actions', () => {
 			expect( insertBlocksGenerator.next().value ).toEqual( {
 				args: [ 'core/test-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ).value ).toEqual( {
 				args: [ 'core/test-chicken', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( false ).value ).toEqual( {
 				args: [ 'core/test-chicken-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ) ).toEqual( {
@@ -552,15 +556,15 @@ describe( 'actions', () => {
 			expect( insertBlocksGenerator.next().value ).toEqual( {
 				args: [ 'core/test-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( false ).value ).toEqual( {
 				args: [ 'core/test-chicken', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( false ) ).toEqual( {
@@ -599,22 +603,22 @@ describe( 'actions', () => {
 			expect( insertBlocksGenerator.next().value ).toEqual( {
 				args: [ 'core/test-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ).value ).toEqual( {
 				args: [ 'core/test-chicken', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( false ).value ).toEqual( {
 				args: [ 'core/test-chicken-ribs', 'testrootid' ],
 				selectorName: 'canInsertBlockType',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( insertBlocksGenerator.next( true ) ).toEqual( {
@@ -669,14 +673,18 @@ describe( 'actions', () => {
 			const actions = Array.from( removeBlocks( clientIds ) );
 
 			expect( actions ).toEqual( [
-				select( 'core/block-editor', 'getBlockRootClientId', clientId ),
-				select( 'core/block-editor', 'getTemplateLock', undefined ),
+				syncSelect(
+					'core/block-editor',
+					'getBlockRootClientId',
+					clientId
+				),
+				syncSelect( 'core/block-editor', 'getTemplateLock', undefined ),
 				selectPreviousBlock( clientId ),
 				{
 					type: 'REMOVE_BLOCKS',
 					clientIds,
 				},
-				select( 'core/block-editor', 'getBlockCount' ),
+				syncSelect( 'core/block-editor', 'getBlockCount' ),
 			] );
 		} );
 	} );
@@ -693,8 +701,8 @@ describe( 'actions', () => {
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ 'ribs' ],
 				selectorName: 'getTemplateLock',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect(
@@ -721,8 +729,8 @@ describe( 'actions', () => {
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ 'ribs' ],
 				selectorName: 'getTemplateLock',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next( 'all' ) ).toEqual( {
@@ -742,8 +750,8 @@ describe( 'actions', () => {
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ 'ribs' ],
 				selectorName: 'getTemplateLock',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next( 'insert' ) ).toEqual( {
@@ -763,15 +771,15 @@ describe( 'actions', () => {
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ 'ribs' ],
 				selectorName: 'getTemplateLock',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ [ 'chicken' ], 'chicken-ribs' ],
 				selectorName: 'canInsertBlocks',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next( true ).value ).toEqual( {
@@ -799,15 +807,15 @@ describe( 'actions', () => {
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ 'ribs' ],
 				selectorName: 'getTemplateLock',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ [ 'chicken' ], 'chicken-ribs' ],
 				selectorName: 'canInsertBlocks',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next( false ) ).toEqual( {
@@ -829,8 +837,8 @@ describe( 'actions', () => {
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
 				args: [ 'ribs' ],
 				selectorName: 'getTemplateLock',
-				storeName: 'core/block-editor',
-				type: 'SELECT',
+				storeKey: 'core/block-editor',
+				type: 'SYNC_SELECT',
 			} );
 
 			expect( moveBlockToPositionGenerator.next().value ).toEqual( {
@@ -852,14 +860,18 @@ describe( 'actions', () => {
 			const actions = Array.from( removeBlock( clientId ) );
 
 			expect( actions ).toEqual( [
-				select( 'core/block-editor', 'getBlockRootClientId', clientId ),
-				select( 'core/block-editor', 'getTemplateLock', undefined ),
+				syncSelect(
+					'core/block-editor',
+					'getBlockRootClientId',
+					clientId
+				),
+				syncSelect( 'core/block-editor', 'getTemplateLock', undefined ),
 				selectPreviousBlock( clientId ),
 				{
 					type: 'REMOVE_BLOCKS',
 					clientIds: [ clientId ],
 				},
-				select( 'core/block-editor', 'getBlockCount' ),
+				syncSelect( 'core/block-editor', 'getBlockCount' ),
 			] );
 		} );
 
@@ -869,9 +881,13 @@ describe( 'actions', () => {
 			const actions = Array.from( removeBlock( clientId, false ) );
 
 			expect( actions ).toEqual( [
-				select( 'core/block-editor', 'getBlockRootClientId', clientId ),
-				select( 'core/block-editor', 'getTemplateLock', undefined ),
-				select(
+				syncSelect(
+					'core/block-editor',
+					'getBlockRootClientId',
+					clientId
+				),
+				syncSelect( 'core/block-editor', 'getTemplateLock', undefined ),
+				syncSelect(
 					'core/block-editor',
 					'getPreviousBlockClientId',
 					'myclientid'
@@ -880,7 +896,7 @@ describe( 'actions', () => {
 					type: 'REMOVE_BLOCKS',
 					clientIds: [ clientId ],
 				},
-				select( 'core/block-editor', 'getBlockCount' ),
+				syncSelect( 'core/block-editor', 'getBlockCount' ),
 			] );
 		} );
 	} );

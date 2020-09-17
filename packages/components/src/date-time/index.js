@@ -1,9 +1,8 @@
 /**
  * External dependencies
  */
-// Needed to initialise the default datepicker styles.
-// See: https://github.com/airbnb/react-dates#initialize
-import 'react-dates/initialize';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 /**
  * WordPress dependencies
@@ -15,10 +14,8 @@ import { __, _x } from '@wordpress/i18n';
  * Internal dependencies
  */
 import Button from '../button';
-import { default as DatePicker } from './date';
-import { default as TimePicker } from './time';
 
-export { DatePicker, TimePicker };
+// export { DatePicker, TimePicker };
 
 export class DateTimePicker extends Component {
 	constructor() {
@@ -50,20 +47,11 @@ export class DateTimePicker extends Component {
 		return (
 			<div className="components-datetime">
 				{ ! this.state.calendarHelpIsVisible && (
-					<>
-						<TimePicker
-							currentTime={ currentDate }
-							onChange={ onChange }
-							is12Hour={ is12Hour }
-						/>
-						<DatePicker
-							currentDate={ currentDate }
-							onChange={ onChange }
-							isInvalidDate={ isInvalidDate }
-							onMonthPreviewed={ onMonthPreviewed }
-							events={ events }
-						/>
-					</>
+					<DatePicker
+						selected={ currentDate }
+						onChange={ console.log }
+						inline
+					/>
 				) }
 
 				{ this.state.calendarHelpIsVisible && (

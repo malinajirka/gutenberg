@@ -60,7 +60,7 @@ function Example() {
 								Item 1
 							</Link>
 						</NavigationItem>
-						<NavigationItem item="item-2">
+						<NavigationItem item="item-2" title="Item 2">
 							<Link href="https://example.com/item-2">
 								Item 2
 							</Link>
@@ -79,7 +79,7 @@ function Example() {
 							target="_blank"
 							title="External link"
 						/>
-						<NavigationItem item="item-5">
+						<NavigationItem item="item-5" title="WordPress Logo">
 							<a
 								href="https://wordpress.org/"
 								// Since we're not actually navigating pages, simulate it with on onClick
@@ -100,6 +100,7 @@ function Example() {
 
 				<NavigationMenu
 					backButtonLabel="Home"
+					hasSearch
 					menu="category"
 					parentMenu="root"
 					title="Category"

@@ -8,6 +8,7 @@ import { set, get } from 'lodash';
  */
 import {
 	createContext,
+	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
@@ -30,12 +31,17 @@ const GlobalStylesContext = createContext( {
 
 export const useGlobalStylesContext = () => useContext( GlobalStylesContext );
 
+const useGlobalStylesEntityContent = () => {
+	return useEntityProp( 'postType', 'wp_global_styles', 'content' );
+};
+
+export const useGlobalStylesReset = () => {
+	const [ , setContent ] = useGlobalStylesEntityContent();
+	return useCallback( () => setContent( '' ), [ setContent ] );
+};
+
 export default ( { children, baseStyles, contexts } ) => {
-	const [ content, setContent ] = useEntityProp(
-		'postType',
-		'wp_global_styles',
-		'content'
-	);
+	const [ content, setContent ] = useGlobalStylesEntityContent();
 
 	const userStyles = useMemo(
 		() => ( content ? JSON.parse( content ) : {} ),

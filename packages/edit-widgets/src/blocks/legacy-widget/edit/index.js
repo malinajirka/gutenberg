@@ -43,11 +43,13 @@ class LegacyWidgetEdit extends Component {
 			setWidgetId,
 			widgetId,
 		} = this.props;
-		const { isPreview, hasEditForm } = this.state;
+		const { hasEditForm } = this.state;
 		const { widgetClass } = attributes;
 		const widgetObject =
 			( widgetId && availableLegacyWidgets[ widgetId ] ) ||
 			( widgetClass && availableLegacyWidgets[ widgetClass ] );
+		const isPreview =
+			this.state.isPreview && ! widgetObject?.isReferenceWidget;
 
 		if ( ! widgetId && ! widgetClass ) {
 			return (
@@ -103,7 +105,7 @@ class LegacyWidgetEdit extends Component {
 								icon={ update }
 							/>
 						) }
-						{ hasEditForm && (
+						{ hasEditForm && ! widgetObject?.isReferenceWidget && (
 							<>
 								<Button
 									className="components-tab-button"
@@ -187,14 +189,13 @@ class LegacyWidgetEdit extends Component {
 	}
 
 	renderWidgetPreview() {
-		const { widgetId, attributes } = this.props;
+		const { attributes } = this.props;
 		return (
 			<ServerSideRender
 				className="wp-block-legacy-widget__preview"
 				block="core/legacy-widget"
 				attributes={ {
-					widgetId,
-					...omit( attributes, 'id' ),
+					...omit( attributes, 'widgetId' ),
 				} }
 			/>
 		);

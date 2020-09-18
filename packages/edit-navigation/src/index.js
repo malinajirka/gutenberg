@@ -107,22 +107,22 @@ const fetchLinkSuggestions = (
 };
 
 removeFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-inspector-controls'
 );
 
 removeFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-block-controls'
 );
 
 removeFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-list-view'
 );
 
 removeFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-formatting-controls'
 );
 

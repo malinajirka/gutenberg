@@ -17,12 +17,7 @@ import {
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useDispatch, withSelect, withDispatch } from '@wordpress/data';
-import {
-	withFilters,
-	PanelBody,
-	ToggleControl,
-	ToolbarGroup,
-} from '@wordpress/components';
+import { PanelBody, ToggleControl, ToolbarGroup } from '@wordpress/components';
 import { compose, createHigherOrderComponent } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
@@ -46,19 +41,11 @@ function Navigation( {
 	updateInnerBlocks,
 	className,
 } ) {
-	//
-	// HOOKS
-	//
-
 	const [ isPlaceholderShown, setIsPlaceholderShown ] = useState(
 		! hasExistingNavItems
 	);
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
-
-	//
-	// RENDER
-	//
 
 	if ( isPlaceholderShown ) {
 		return (
@@ -119,6 +106,10 @@ function Navigation( {
 
 export const withInspectorControls = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {
+		if ( props.name !== 'core/navigation' ) {
+			return <BlockEdit { ...props } />;
+		}
+
 		return (
 			<>
 				<BlockEdit { ...props } />
@@ -142,17 +133,19 @@ export const withInspectorControls = createHigherOrderComponent(
 );
 
 addFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-inspector-controls',
 	withInspectorControls
 );
 
 export const withBlockControls = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {
+		if ( props.name !== 'core/navigation' ) {
+			return <BlockEdit { ...props } />;
+		}
+
 		const { attributes, setAttributes } = props;
-		//
-		// HANDLERS
-		//
+
 		function handleItemsAlignment( align ) {
 			return () => {
 				const itemsJustification =
@@ -210,13 +203,17 @@ export const withBlockControls = createHigherOrderComponent(
 );
 
 addFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-block-controls',
 	withBlockControls
 );
 
 export const withListView = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {
+		if ( props.name !== 'core/navigation' ) {
+			return <BlockEdit { ...props } />;
+		}
+
 		const { clientId } = props;
 		const { navigatorToolbarButton, navigatorModal } = useBlockNavigator(
 			clientId
@@ -236,13 +233,17 @@ export const withListView = createHigherOrderComponent(
 );
 
 addFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-list-view',
 	withListView
 );
 
 export const withFormattingControls = createHigherOrderComponent(
 	( BlockEdit ) => ( props ) => {
+		if ( props.name !== 'core/navigation' ) {
+			return <BlockEdit { ...props } />;
+		}
+
 		const {
 			TextColor,
 			BackgroundColor,
@@ -287,48 +288,44 @@ export const withFormattingControls = createHigherOrderComponent(
 );
 
 addFilter(
-	'navigation.BlockEdit',
+	'editor.BlockEdit',
 	'core/block-library/navigation/with-formatting-controls',
 	withFormattingControls
 );
 
-export default withFilters( 'navigation.BlockEdit' )(
-	compose( [
-		withSelect( ( select, { clientId } ) => {
-			const innerBlocks = select( 'core/block-editor' ).getBlocks(
-				clientId
-			);
-			const {
-				getClientIdsOfDescendants,
-				hasSelectedInnerBlock,
-				getSelectedBlockClientId,
-			} = select( 'core/block-editor' );
-			const isImmediateParentOfSelectedBlock = hasSelectedInnerBlock(
-				clientId,
-				false
-			);
-			const selectedBlockId = getSelectedBlockClientId();
-			const selectedBlockHasDescendants = !! getClientIdsOfDescendants( [
-				selectedBlockId,
-			] )?.length;
-			return {
-				isImmediateParentOfSelectedBlock,
-				selectedBlockHasDescendants,
-				hasExistingNavItems: !! innerBlocks.length,
-			};
-		} ),
-		withDispatch( ( dispatch, { clientId } ) => {
-			return {
-				updateInnerBlocks( blocks ) {
-					if ( blocks?.length === 0 ) {
-						return false;
-					}
-					dispatch( 'core/block-editor' ).replaceInnerBlocks(
-						clientId,
-						blocks
-					);
-				},
-			};
-		} ),
-	] )( Navigation )
-);
+export default compose( [
+	withSelect( ( select, { clientId } ) => {
+		const innerBlocks = select( 'core/block-editor' ).getBlocks( clientId );
+		const {
+			getClientIdsOfDescendants,
+			hasSelectedInnerBlock,
+			getSelectedBlockClientId,
+		} = select( 'core/block-editor' );
+		const isImmediateParentOfSelectedBlock = hasSelectedInnerBlock(
+			clientId,
+			false
+		);
+		const selectedBlockId = getSelectedBlockClientId();
+		const selectedBlockHasDescendants = !! getClientIdsOfDescendants( [
+			selectedBlockId,
+		] )?.length;
+		return {
+			isImmediateParentOfSelectedBlock,
+			selectedBlockHasDescendants,
+			hasExistingNavItems: !! innerBlocks.length,
+		};
+	} ),
+	withDispatch( ( dispatch, { clientId } ) => {
+		return {
+			updateInnerBlocks( blocks ) {
+				if ( blocks?.length === 0 ) {
+					return false;
+				}
+				dispatch( 'core/block-editor' ).replaceInnerBlocks(
+					clientId,
+					blocks
+				);
+			},
+		};
+	} ),
+] )( Navigation );

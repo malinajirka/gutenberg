@@ -7,7 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 /**
  * WordPress dependencies
  */
-import { Component, } from '@wordpress/element';
+import { Component } from '@wordpress/element';
 import { __, _x } from '@wordpress/i18n';
 
 /**
@@ -48,8 +48,9 @@ export class DateTimePicker extends Component {
 			<div className="components-datetime">
 				{ ! this.state.calendarHelpIsVisible && (
 					<DatePicker
+						calendarClassName="components-datetime__datepicker"
 						selected={ currentDate }
-						onChange={ console.log }
+						onChange={ onChange }
 						inline
 					/>
 				) }

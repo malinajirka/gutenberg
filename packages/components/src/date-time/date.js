@@ -3,7 +3,6 @@
  */
 import moment from 'moment';
 import ReactDatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
 
 /**
  * WordPress dependencies

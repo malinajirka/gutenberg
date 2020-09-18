@@ -43,13 +43,11 @@ class LegacyWidgetEdit extends Component {
 			setWidgetId,
 			widgetId,
 		} = this.props;
-		const { hasEditForm } = this.state;
+		const { isPreview, hasEditForm } = this.state;
 		const { widgetClass } = attributes;
 		const widgetObject =
 			( widgetId && availableLegacyWidgets[ widgetId ] ) ||
 			( widgetClass && availableLegacyWidgets[ widgetClass ] );
-		const isPreview =
-			this.state.isPreview && ! widgetObject?.isReferenceWidget;
 
 		if ( ! widgetId && ! widgetClass ) {
 			return (
@@ -105,7 +103,7 @@ class LegacyWidgetEdit extends Component {
 								icon={ update }
 							/>
 						) }
-						{ hasEditForm && ! widgetObject?.isReferenceWidget && (
+						{ hasEditForm && (
 							<>
 								<Button
 									className="components-tab-button"
@@ -163,7 +161,10 @@ class LegacyWidgetEdit extends Component {
 						} }
 					/>
 				) }
-				{ ( isPreview || ! hasEditForm ) && this.renderWidgetPreview() }
+				{ ( isPreview || ! hasEditForm ) &&
+					( widgetObject.isReferenceWidget
+						? this.renderWidgetPreviewUnavailable()
+						: this.renderWidgetPreview() ) }
 			</>
 		);
 	}
@@ -199,6 +200,10 @@ class LegacyWidgetEdit extends Component {
 				} }
 			/>
 		);
+	}
+
+	renderWidgetPreviewUnavailable() {
+		return <p>{ __( 'Reference widgets cannot be previewed.' ) }</p>;
 	}
 }
 

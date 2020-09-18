@@ -39,10 +39,15 @@ function removeNavigationBlockSettingsUnsupportedFeatures( settings, name ) {
 
 	return {
 		...settings,
-		supports: omit( settings.supports, [
-			'__experimentalColor',
-			'__experimentalFontSize',
-		] ),
+		supports: {
+			...omit( settings.supports, [
+				'anchor',
+				'customClassName',
+				'__experimentalColor',
+				'__experimentalFontSize',
+			] ),
+			customClassName: false,
+		},
 	};
 }
 

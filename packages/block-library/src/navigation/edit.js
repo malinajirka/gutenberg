@@ -7,7 +7,7 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useState, createRef } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { addFilter } from '@wordpress/hooks';
 import {
 	InnerBlocks,
@@ -26,8 +26,6 @@ import { __ } from '@wordpress/i18n';
 import useBlockNavigator from './use-block-navigator';
 import * as navIcons from './icons';
 import NavigationPlaceholder from './placeholder';
-
-const ref = createRef();
 
 function Navigation( {
 	selectedBlockHasDescendants,
@@ -49,7 +47,6 @@ function Navigation( {
 		return (
 			<Block.div>
 				<NavigationPlaceholder
-					ref={ ref }
 					onCreate={ ( blocks, selectNavigationBlock ) => {
 						setIsPlaceholderShown( false );
 						updateInnerBlocks( blocks );
@@ -71,7 +68,6 @@ function Navigation( {
 		<>
 			<Block.nav className={ blockClassNames }>
 				<InnerBlocks
-					ref={ ref }
 					allowedBlocks={ [
 						'core/navigation-link',
 						'core/search',

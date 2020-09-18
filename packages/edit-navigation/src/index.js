@@ -12,11 +12,12 @@ import {
 	__experimentalRegisterExperimentalCoreBlocks,
 } from '@wordpress/block-library';
 import { render } from '@wordpress/element';
+import { createHigherOrderComponent } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { decodeEntities } from '@wordpress/html-entities';
-import { addFilter, removeFilter } from '@wordpress/hooks';
+import { addFilter } from '@wordpress/hooks';
 
 /**
  * Internal dependencies
@@ -31,7 +32,7 @@ function disableInsertingNonNavigationBlocks( settings, name ) {
 	return settings;
 }
 
-function removeColorSupportFromNavigationBlock( settings, name ) {
+function removeNavigationBlockSettingsUnsupportedFeatures( settings, name ) {
 	if ( name !== 'core/navigation' ) {
 		return settings;
 	}
@@ -41,6 +42,24 @@ function removeColorSupportFromNavigationBlock( settings, name ) {
 		supports: omit( settings.supports, '__experimentalColor' ),
 	};
 }
+
+const removeNavigationBlockEditUnsupportedFeatures = createHigherOrderComponent(
+	( BlockEdit ) => ( props ) => {
+		if ( props.name !== 'core/navigation' ) {
+			return <BlockEdit { ...props } />;
+		}
+
+		return (
+			<BlockEdit
+				{ ...props }
+				hasSubmenuIndicatorSetting={ false }
+				hasItemJustificationControls={ false }
+				hasListViewModal={ false }
+			/>
+		);
+	},
+	'removeNavigationBlockEditUnsupportedFeatures'
+);
 
 /**
  * Fetches link suggestions from the API. This function is an exact copy of a function found at:
@@ -117,22 +136,6 @@ const fetchLinkSuggestions = (
 	} );
 };
 
-// Remove support for various features from the navigation block.
-removeFilter(
-	'editor.BlockEdit',
-	'core/block-library/navigation/with-inspector-controls'
-);
-
-removeFilter(
-	'editor.BlockEdit',
-	'core/block-library/navigation/with-block-controls'
-);
-
-removeFilter(
-	'editor.BlockEdit',
-	'core/block-library/navigation/with-list-view'
-);
-
 export function initialize( id, settings ) {
 	if ( ! settings.blockNavMenus ) {
 		addFilter(
@@ -144,8 +147,14 @@ export function initialize( id, settings ) {
 
 	addFilter(
 		'blocks.registerBlockType',
-		'core/edit-navigation',
-		removeColorSupportFromNavigationBlock
+		'core/edit-navigation/remove-navigation-block-settings-unsupported-features',
+		removeNavigationBlockSettingsUnsupportedFeatures
+	);
+
+	addFilter(
+		'editor.BlockEdit',
+		'core/edit-navigation/remove-navigation-block-edit-unsupported-features',
+		removeNavigationBlockEditUnsupportedFeatures
 	);
 
 	registerCoreBlocks();

@@ -13,7 +13,6 @@ import {
 	InnerBlocks,
 	InspectorControls,
 	BlockControls,
-	__experimentalUseColors,
 	__experimentalBlock as Block,
 } from '@wordpress/block-editor';
 import { useDispatch, withSelect, withDispatch } from '@wordpress/data';
@@ -25,7 +24,6 @@ import { __ } from '@wordpress/i18n';
  * Internal dependencies
  */
 import useBlockNavigator from './use-block-navigator';
-import BlockColorsStyleSelector from './block-colors-selector';
 import * as navIcons from './icons';
 import NavigationPlaceholder from './placeholder';
 
@@ -236,61 +234,6 @@ addFilter(
 	'editor.BlockEdit',
 	'core/block-library/navigation/with-list-view',
 	withListView
-);
-
-export const withFormattingControls = createHigherOrderComponent(
-	( BlockEdit ) => ( props ) => {
-		if ( props.name !== 'core/navigation' ) {
-			return <BlockEdit { ...props } />;
-		}
-
-		const {
-			TextColor,
-			BackgroundColor,
-			ColorPanel,
-		} = __experimentalUseColors(
-			[
-				{ name: 'textColor', property: 'color' },
-				{ name: 'backgroundColor', className: 'has-background' },
-			],
-			{
-				contrastCheckers: [
-					{
-						backgroundColor: true,
-						textColor: true,
-					},
-				],
-				colorDetector: { targetRef: ref },
-				colorPanelProps: {
-					initialOpen: true,
-				},
-			}
-		);
-		return (
-			<>
-				<TextColor>
-					<BackgroundColor>
-						<BlockEdit { ...props } />
-					</BackgroundColor>
-				</TextColor>
-				<BlockControls>
-					<BlockColorsStyleSelector
-						TextColor={ TextColor }
-						BackgroundColor={ BackgroundColor }
-					>
-						{ ColorPanel }
-					</BlockColorsStyleSelector>
-				</BlockControls>
-			</>
-		);
-	},
-	'withFormattingControls'
-);
-
-addFilter(
-	'editor.BlockEdit',
-	'core/block-library/navigation/with-formatting-controls',
-	withFormattingControls
 );
 
 export default compose( [

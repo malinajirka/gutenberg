@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { map, set, flatten, partialRight } from 'lodash';
+import { map, set, flatten, omit, partialRight } from 'lodash';
 
 /**
  * WordPress dependencies
@@ -29,6 +29,17 @@ function disableInsertingNonNavigationBlocks( settings, name ) {
 		set( settings, [ 'supports', 'inserter' ], false );
 	}
 	return settings;
+}
+
+function removeColorSupportFromNavigationBlock( settings, name ) {
+	if ( name !== 'core/navigation' ) {
+		return settings;
+	}
+
+	return {
+		...settings,
+		supports: omit( settings.supports, '__experimentalColor' ),
+	};
 }
 
 /**
@@ -106,6 +117,7 @@ const fetchLinkSuggestions = (
 	} );
 };
 
+// Remove support for various features from the navigation block.
 removeFilter(
 	'editor.BlockEdit',
 	'core/block-library/navigation/with-inspector-controls'
@@ -121,11 +133,6 @@ removeFilter(
 	'core/block-library/navigation/with-list-view'
 );
 
-removeFilter(
-	'editor.BlockEdit',
-	'core/block-library/navigation/with-formatting-controls'
-);
-
 export function initialize( id, settings ) {
 	if ( ! settings.blockNavMenus ) {
 		addFilter(
@@ -134,6 +141,12 @@ export function initialize( id, settings ) {
 			disableInsertingNonNavigationBlocks
 		);
 	}
+
+	addFilter(
+		'blocks.registerBlockType',
+		'core/edit-navigation',
+		removeColorSupportFromNavigationBlock
+	);
 
 	registerCoreBlocks();
 

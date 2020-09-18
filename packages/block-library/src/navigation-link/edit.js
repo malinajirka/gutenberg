@@ -32,7 +32,7 @@ import {
 	InspectorControls,
 	RichText,
 	__experimentalLinkControl as LinkControl,
-	__experimentalUseBlockProps as useBlockProps,
+	__experimentalUseBlockWrapperProps as useBlockWrapperProps,
 } from '@wordpress/block-editor';
 import { isURL, prependHTTP } from '@wordpress/url';
 import {
@@ -294,7 +294,7 @@ function NavigationLinkEdit( {
 				</PanelBody>
 			</InspectorControls>
 			<li
-				{ ...useBlockProps( {
+				{ ...useBlockWrapperProps( {
 					ref: listItemRef,
 					className: classnames( {
 						'is-editing':
